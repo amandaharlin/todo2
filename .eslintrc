@@ -1,27 +1,25 @@
 {
-parser: "babel-eslint",
-parserOptions: {
-ecmaVersion: 6,
-sourceType: "module",
-ecmaFeatures: {
-modules: true
-}
-},
-plugins: [
-"prettier"
-],
-rules: {
-prettier/prettier: [
-"warn",
-{
-singleQuote: true
-}
-]
-},
-env: {
-es6: true,
-node: true,
-browser: true
-},
-extends: [ ]
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "singleQuote": true
+      }
+    ]
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
+  },
+  "extends": []
 }
