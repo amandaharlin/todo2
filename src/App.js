@@ -18,14 +18,30 @@ class Chore extends Component {
   render() {
     const { chore } = this.props;
     const { id, choreDescription, points, status } = chore;
+
+    const checkboxStatus = status === 'complete';
+
     return (
       <Table.Body>
         <Table.Row>
           <Table.Cell collapsing>
-            <Checkbox label="" />
+            <Checkbox
+              label=""
+              checked={checkboxStatus}
+              onClick={(event, data) => {
+                const _newStatus = checkboxStatus
+                  ? console.log('hi')
+                  : //checkboxStatus === 'incomplete';
+                    console.log('heyy');
+
+                this.setState({ checkboxStatus: _newStatus });
+              }}
+            />
           </Table.Cell>
-          <Table.Cell>{choreDescription}</Table.Cell>
-          <Table.Cell>{status}</Table.Cell>
+          <Table.Cell className={completedStatus}>
+            {choreDescription}
+          </Table.Cell>
+          <Table.Cell className={completedStatus}>{points}</Table.Cell>
         </Table.Row>
       </Table.Body>
     );
@@ -44,7 +60,7 @@ class ChoreTable extends Component {
 
     return (
       <div>
-        <Table collapsing celled compact striped color="teal">
+        <Table collapsing celled compact striped color="teal" className="todo">
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Completed</Table.HeaderCell>
@@ -56,7 +72,14 @@ class ChoreTable extends Component {
           {choreTableHTML}
         </Table>
 
-        <Table collapsing celled compact striped color="teal">
+        <Table
+          collapsing
+          celled
+          compact
+          striped
+          color="teal"
+          className="todo selection-model"
+        >
           <Table.Header>
             <Table.Row />
           </Table.Header>
@@ -72,16 +95,13 @@ class App extends Component {
       <div className="App">
         <Container>
           <Divider hidden />
-
           <ChoreTable />
-
           <Input
             icon={{ name: 'plus', circular: true, link: true }}
             placeholder="Add new chore"
           />
-
           <Divider hidden />
-
+          Selection Model Table
           <Table collapsing celled compact striped color="pink">
             <Table.Header>
               <Table.Row>

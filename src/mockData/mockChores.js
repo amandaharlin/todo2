@@ -3,7 +3,7 @@ export const mockChores = [
     id: 1,
     choreDescription: 'mop floors',
     points: 1,
-    status: 'incomplete'
+    status: 'complete'
   },
   {
     id: 2,
