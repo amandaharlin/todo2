@@ -25,7 +25,7 @@ class ChoreRow extends Component {
       <Table.Body>
         <Table.Row>
           <Table.Cell collapsing>
-            <Checkbox label="" />
+            <Checkbox label="" checked={'iExistInSelectionModel'} />
           </Table.Cell>
           <Table.Cell>{choreDescription}</Table.Cell>
           <Table.Cell>{points}</Table.Cell>
@@ -37,27 +37,22 @@ class ChoreRow extends Component {
 
 class ChoreTable extends Component {
   render() {
+    const { data, allChores, selectedChores } = this.props;
     function choreToHTML(chore, i) {
-      return <ChoreRow chore={chore} key={chore.id} />;
-    }
+      //???
+      //active?
 
-    const { data } = this.props;
+      return <ChoreRow chore={chore} key={chore.id} active={selectedChores} />;
+    }
 
     const choreTableHTML = _.chain(data)
       .map(choreToHTML)
       .value();
+    console.log('data ~', data);
 
     return (
       <div>
-        <Table
-          collapsing
-          celled
-          compact
-          striped
-          color="teal"
-          className="todo"
-          data={mockChores}
-        >
+        <Table collapsing celled compact striped color="teal" className="todo">
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Completed</Table.HeaderCell>
