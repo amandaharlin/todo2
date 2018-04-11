@@ -14,18 +14,16 @@ import {
 
 import { mockChores } from './mockData/mockChores';
 
-function toggleCheckbox() {}
-
 class ChoreRow extends Component {
   render() {
-    const { chore } = this.props;
+    const { chore, isActive } = this.props;
     const { id, choreDescription, points, status } = chore;
 
     return (
       <Table.Body>
         <Table.Row>
           <Table.Cell collapsing>
-            <Checkbox label="" checked={'iExistInSelectionModel'} />
+            <Checkbox label="" checked={isActive} />
           </Table.Cell>
           <Table.Cell>{choreDescription}</Table.Cell>
           <Table.Cell>{points}</Table.Cell>
@@ -37,18 +35,20 @@ class ChoreRow extends Component {
 
 class ChoreTable extends Component {
   render() {
-    const { data, allChores, selectedChores } = this.props;
-    function choreToHTML(chore, i) {
-      //???
-      //active?
+    const { data, selection } = this.props;
 
-      return <ChoreRow chore={chore} key={chore.id} active={selectedChores} />;
+    function choreToHTML(chore, i) {
+      const selectedInModel = _.findIndex(selection, chore) > -1;
+      console.log(selectedInModel, selection, chore);
+      return (
+        //rows have an active property so renaming this isActive
+        <ChoreRow chore={chore} key={chore.id} isActive={selectedInModel} />
+      );
     }
 
     const choreTableHTML = _.chain(data)
       .map(choreToHTML)
       .value();
-    console.log('data ~', data);
 
     return (
       <div>
