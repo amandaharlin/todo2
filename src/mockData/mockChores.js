@@ -16,5 +16,11 @@ export const mockChores = [
     choreDescription: 'take out trash & refill bag',
     points: 3,
     status: 'incomplete'
+  },
+  {
+    id: 4,
+    choreDescription: 'load dishwasher and empty dishwasher',
+    points: 4,
+    status: 'complete'
   }
 ];

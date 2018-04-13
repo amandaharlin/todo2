@@ -16,12 +16,18 @@ import { mockChores } from './mockData/mockChores';
 
 class ChoreRow extends Component {
   render() {
-    const { chore, isActive } = this.props;
+    const { chore, isActive, onClickRow } = this.props;
     const { id, choreDescription, points, status } = chore;
 
     return (
       <Table.Body>
-        <Table.Row>
+        <Table.Row
+          onClick={event => {
+            if (typeof onClickRow === 'function') {
+              onClickRow(event, chore);
+            }
+          }}
+        >
           <Table.Cell collapsing>
             <Checkbox label="" checked={isActive} />
           </Table.Cell>
@@ -35,14 +41,18 @@ class ChoreRow extends Component {
 
 class ChoreTable extends Component {
   render() {
-    const { data, selection } = this.props;
+    const { data, selection, onClickRow } = this.props;
 
     function choreToHTML(chore, i) {
       const selectedInModel = _.findIndex(selection, chore) > -1;
-      console.log(selectedInModel, selection, chore);
+      console.log('selectedInModel', selectedInModel);
       return (
-        //rows have an active property so renaming this isActive
-        <ChoreRow chore={chore} key={chore.id} isActive={selectedInModel} />
+        <ChoreRow
+          chore={chore}
+          key={chore.id}
+          isActive={selectedInModel}
+          onClickRow={onClickRow}
+        />
       );
     }
 
@@ -71,6 +81,23 @@ class ChoreTable extends Component {
 class App extends Component {
   state = { allChores: mockChores, selectedChores: [mockChores[0]] };
 
+  toggleRow = (event, chore) => {
+    const { selectedChores, allChores } = this.state;
+    let newData;
+    const choreIsAlreadySelected = _.findIndex(selectedChores, chore) > -1;
+    if (choreIsAlreadySelected) {
+      console.log('remove it');
+      newData = selectedChores.filter((thisChore, i) => {
+        return thisChore.id != chore.id;
+      });
+    } else {
+      console.log('add it');
+      newData = [chore, ...selectedChores];
+    }
+    this.setState({ selectedChores: newData });
+    console.log('newData', newData);
+  };
+
   render() {
     const { allChores, selectedChores } = this.state;
 
@@ -78,7 +105,11 @@ class App extends Component {
       <div className="App">
         <Container>
           <Divider hidden />
-          <ChoreTable data={allChores} selection={selectedChores} />
+          <ChoreTable
+            data={allChores}
+            selection={selectedChores}
+            onClickRow={this.toggleRow}
+          />
           <Divider hidden />
           <Input
             icon={{ name: 'plus', circular: true, link: true }}
@@ -94,3 +125,6 @@ class App extends Component {
 }
 
 export default App;
+
+//add number at bottom that adds up all selected points chores with a reduce function
+//if you deselect all the number is 0
