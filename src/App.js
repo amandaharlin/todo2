@@ -94,6 +94,20 @@ class App extends Component {
     this.setState({ selectedChores: newData });
   };
 
+  renderChorePointSum = () => {
+    const { selectedChores } = this.state;
+
+    const chorePointSum = _.reduce(
+      selectedChores,
+      (acc, chore) => {
+        return acc + chore.points;
+      },
+      0
+    );
+
+    return <div>total points = {chorePointSum}</div>;
+  };
+
   render() {
     const { allChores, selectedChores } = this.state;
 
@@ -107,13 +121,14 @@ class App extends Component {
             onClickRow={this.toggleRow}
           />
           <Divider hidden />
-          <Input
+          {/* <Input
             icon={{ name: 'plus', circular: true, link: true }}
             placeholder="Add new chore"
-          />
+          /> */}
           <Divider hidden />
           Selection Model Table
           <ChoreTable data={selectedChores} />
+          {this.renderChorePointSum()}
         </Container>
       </div>
     );
@@ -121,6 +136,3 @@ class App extends Component {
 }
 
 export default App;
-
-//add number at bottom that adds up all selected points chores with a reduce function
-//if you deselect all the number is 0
