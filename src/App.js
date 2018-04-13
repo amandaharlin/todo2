@@ -7,8 +7,10 @@ import {
   Checkbox,
   Container,
   Divider,
+  Header,
   Icon,
   Input,
+  Modal,
   Table
 } from 'semantic-ui-react';
 
@@ -105,7 +107,7 @@ class App extends Component {
       0
     );
 
-    return <div>total points = {chorePointSum}</div>;
+    return <Header size="large">Total Points = {chorePointSum}</Header>;
   };
 
   render() {
@@ -121,10 +123,7 @@ class App extends Component {
             onClickRow={this.toggleRow}
           />
           <Divider hidden />
-          {/* <Input
-            icon={{ name: 'plus', circular: true, link: true }}
-            placeholder="Add new chore"
-          /> */}
+          <Button color="teal">Add a Chore</Button>
           <Divider hidden />
           Selection Model Table
           <ChoreTable data={selectedChores} />
