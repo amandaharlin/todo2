@@ -45,7 +45,6 @@ class ChoreTable extends Component {
 
     function choreToHTML(chore, i) {
       const selectedInModel = _.findIndex(selection, chore) > -1;
-      console.log('selectedInModel', selectedInModel);
       return (
         <ChoreRow
           chore={chore}
@@ -86,16 +85,13 @@ class App extends Component {
     let newData;
     const choreIsAlreadySelected = _.findIndex(selectedChores, chore) > -1;
     if (choreIsAlreadySelected) {
-      console.log('remove it');
       newData = selectedChores.filter((thisChore, i) => {
         return thisChore.id != chore.id;
       });
     } else {
-      console.log('add it');
       newData = [chore, ...selectedChores];
     }
     this.setState({ selectedChores: newData });
-    console.log('newData', newData);
   };
 
   render() {
