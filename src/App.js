@@ -1,5 +1,7 @@
 import 'semantic-ui-css/semantic.min.css';
 
+import './App.css';
+
 import _ from 'lodash';
 import React, { Component } from 'react';
 import {
@@ -7,6 +9,7 @@ import {
   Checkbox,
   Container,
   Divider,
+  Form,
   Header,
   Icon,
   Input,
@@ -80,7 +83,11 @@ class ChoreTable extends Component {
 }
 
 class App extends Component {
-  state = { allChores: mockChores, selectedChores: [mockChores[0]] };
+  state = {
+    allChores: mockChores,
+    selectedChores: [mockChores[0]],
+    openAddChoreModal: false
+  };
 
   toggleRow = (event, chore) => {
     const { selectedChores, allChores } = this.state;
@@ -110,6 +117,59 @@ class App extends Component {
     return <Header size="large">Total Points = {chorePointSum}</Header>;
   };
 
+  renderButtonModal = () => {
+    return (
+      <div>
+        <Button
+          onClick={() => {
+            this.setState({
+              openAddChoreModal: true
+            });
+          }}
+        >
+          Add Chore
+        </Button>
+        <Modal
+          size="large"
+          open={this.state.openAddChoreModal}
+          onClose={() => {
+            this.setState({
+              openAddChoreModal: false
+            });
+          }}
+        >
+          <Modal.Content>
+            <Header>Add a Chore</Header>
+            <Form>
+              <Form.Input label="Chore Name" placeholder="Mow Yard" />
+              <Form.Input label="Chore Point Value" placeholder="3" />
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              color="green"
+              onClick={() => {
+                const newChore = {
+                  id: Math.random(),
+                  choreDescription: 'mow yard',
+                  points: 1
+                };
+
+                ///add chore
+
+                this.setState({
+                  openAddChoreModal: false
+                });
+              }}
+            >
+              <Icon name="checkmark" /> Add This Chore
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      </div>
+    );
+  };
+
   render() {
     const { allChores, selectedChores } = this.state;
 
@@ -123,11 +183,11 @@ class App extends Component {
             onClickRow={this.toggleRow}
           />
           <Divider hidden />
-          <Button color="teal">Add a Chore</Button>
           <Divider hidden />
           Selection Model Table
           <ChoreTable data={selectedChores} />
           {this.renderChorePointSum()}
+          {this.renderButtonModal()}
         </Container>
       </div>
     );
