@@ -118,6 +118,7 @@ class App extends Component {
   };
 
   renderButtonModal = () => {
+    const { choreName, chorePoint } = this.state;
     return (
       <div>
         <Button
@@ -141,8 +142,22 @@ class App extends Component {
           <Modal.Content>
             <Header>Add a Chore</Header>
             <Form>
-              <Form.Input label="Chore Name" placeholder="Mow Yard" />
-              <Form.Input label="Chore Point Value" placeholder="3" />
+              <Form.Input
+                label="Chore Name"
+                placeholder="Mow Yard"
+                value={choreName}
+                onChange={(event, data) => {
+                  this.setState({ choreName: data.value });
+                }}
+              />
+              <Form.Input
+                label="Chore Point Value"
+                placeholder="3"
+                value={chorePoint}
+                onChange={(event, data) => {
+                  this.setState({ chorePoint: data.value });
+                }}
+              />
             </Form>
           </Modal.Content>
           <Modal.Actions>
@@ -151,14 +166,13 @@ class App extends Component {
               onClick={() => {
                 const newChore = {
                   id: Math.random(),
-                  choreDescription: 'mow yard',
-                  points: 1
+                  choreDescription: choreName,
+                  points: chorePoint
                 };
 
-                ///add chore
-
                 this.setState({
-                  openAddChoreModal: false
+                  openAddChoreModal: false,
+                  allChores: [...this.state.allChores, newChore]
                 });
               }}
             >
